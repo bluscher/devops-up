@@ -2,15 +2,12 @@ package com.luscherbernardo.up.devops.empleado;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "empleados")
 public class Empleado{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long emp_id;
 
     @Column(name = "nombre",nullable = false)
