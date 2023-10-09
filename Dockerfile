@@ -1,26 +1,12 @@
-# First stage: complete build environment
-FROM eclipse-temurin:17-jdk-alpine as build
-WORKDIR /workspace/app
 
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-COPY src src
+FROM maven:3.9.4-eclipse-temurin-17 AS build
+RUN mkdir /project
+COPY . /project
+WORKDIR /project
+RUN mvn clean package -DskipTests
 
-# -DskipTests - Evita de realiar Test
-RUN ./mvnw install -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-
-# Second stage: minimal runtime environment
 FROM eclipse-temurin:17-jdk-alpine
-VOLUME /tmp
-
-# copy jar from the first stage
-ARG DEPENDENCY=/workspace/app/target/dependency
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-
-EXPOSE 8080
-
+RUN mkdir /app
+COPY --from=build /project/target/devops-0.0.1-SNAPSHOT.jar /app/devops-0.0.1-SNAPSHOT.jar
+WORKDIR /app
 CMD ["java", "-jar", "devops-0.0.1-SNAPSHOT.jar"]
