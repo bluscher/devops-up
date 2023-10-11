@@ -14,8 +14,7 @@ public class EmpleadoController {
 
     @Autowired
     private final EmpleadoService empleadoService;
-    @Autowired
-    private EmpleadoRepository empleadoRepository;
+
 
     public EmpleadoController( EmpleadoService empleadoService) {
         this.empleadoService = empleadoService;
