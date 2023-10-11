@@ -1,0 +1,45 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  build:
+    name:  Build-Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+  
+      - name: Unit Tests
+        run: ./mvnw verify
+
+      - name: Rename the artifact
+        run: cp target/devops-0.0.1-SNAPSHOT.jar devops-${{ github.sha}}.jar
+
+      - name: Save the artifact
+        run: action/upload-artifact@master
+        with:
+          name: devops_artifact
+          path: devops-${{ github.sha}}.jar
+
+  fake-deploy:
+      runs-on: self-hosted
+      needs: Build-Test
+      steps:
+        - name: Get artifact
+          uses: action/download-artifact@master
+          with:
+            name: devops_artifact
+
+        - name: Fake deploy
+          run: ls devops-*.jar
