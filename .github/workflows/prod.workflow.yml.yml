@@ -6,8 +6,7 @@ on:
       - 'master'
 
 jobs:
-  build:
-    name:  Build-Test
+  Build-Test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
