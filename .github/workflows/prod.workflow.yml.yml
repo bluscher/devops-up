@@ -62,7 +62,7 @@ jobs:
           file: ./Dockerfile
           push: true
           #tags: ${{ github.repository }}:${{ github.sha }}
-          tags: ${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
   fake-deploy:
