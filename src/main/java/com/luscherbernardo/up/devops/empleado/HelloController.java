@@ -16,7 +16,7 @@ public class HelloController {
 
     @GetMapping("/message")
     public String message(Model model) {
-        model.addAttribute("message", "Esto es una prueba >>  Hello World Devops #1");
+        model.addAttribute("message", "Esto es una prueba >>  Hello Monitoring");
         //return model.toString();
         return "message";
     }
