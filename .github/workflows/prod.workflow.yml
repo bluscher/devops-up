@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'feature-monitoring'
 
 jobs:
   build-test:
