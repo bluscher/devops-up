@@ -21,3 +21,8 @@ management:
     web:
       exposure:
         include: prometheus, metrics, info, health, shutdown, beans
+#Logging:
+#  level:
+#    com.luscherbernardo.up.devops: INFO
+#    root: INFO
+

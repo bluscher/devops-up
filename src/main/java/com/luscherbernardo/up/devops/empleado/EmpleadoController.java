@@ -1,6 +1,8 @@
 package com.luscherbernardo.up.devops.empleado;
 
 import com.luscherbernardo.up.devops.service.EmpleadoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("/api/empleados")
 public class EmpleadoController {
 
+    private static final Logger logInfo = LoggerFactory.getLogger(EmpleadoController.class);
     @Autowired
     private final EmpleadoService empleadoService;
 
@@ -33,6 +36,9 @@ public class EmpleadoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Empleado createEmpleado(@RequestBody Empleado empleado) {
+        // ejemplo de logging
+        logInfo.info("Empleado Info Logging - Empleado creado");
+        logInfo.debug("Empleado Debug Logging esta habilitado");
         return this.empleadoService.save(empleado);
     }
 
@@ -50,6 +56,9 @@ public class EmpleadoController {
         try {
             empleadoService.findById(id);
             empleadoService.deleteById(id);
+
+            logInfo.info("Empleado Info Logging esta habilitado");
+
             return "Empleado borrado exitosamente";
         } catch (Exception e) {
             return "Empleado no encontrado";
